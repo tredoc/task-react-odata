@@ -1,3 +1,6 @@
+## Moved abort request from App component logic to service api class  
+
+**Technical task**  
 Implement functional React component which will render the list of products.
 
 Details:
@@ -10,4 +13,4 @@ Details:
 + When multiple search requests are sent the last one should be cancelled after new one is fired
 
 Attachments:
-Endpoint with real data: https://services.odata.org/Experimental/OData/OData.svc/Products
+[Endpoint with real data](https://services.odata.org/Experimental/OData/OData.svc/Products)

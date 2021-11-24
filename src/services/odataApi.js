@@ -3,6 +3,21 @@ export const BASE_URL = 'https://services.odata.org/Experimental/OData/OData.svc
 class Api {
 	constructor(baseUrl) {
 		this.baseUrl = baseUrl
+		this.controller = new AbortController()
+		this.isFetching = false
+	}
+
+	abortRequest() {
+		this.controller.abort()
+		this.controller = new AbortController()
+	}
+
+	fetchIsDone() {
+		this.isFetching = false
+	}
+
+	isFetchDone() {
+		return !this.isFetching
 	}
 
 	requestBuilder(baseUrl, options = {}) {
@@ -20,9 +35,10 @@ class Api {
 		return fetch(this.baseUrl)
 	}
 
-	async fetchProductsByString(str, { signal }) {
+	async fetchProductsByString(str) {
 		const builtUrl = this.requestBuilder(this.baseUrl, {$filter: `contains(Name, '${str}')`})
-		return fetch(builtUrl, { signal })
+		this.fetchIsDone()
+		return fetch(builtUrl, { signal: this.controller.signal })
 	}
 }
 

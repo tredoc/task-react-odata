@@ -1,5 +1,5 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
+import './App.css'
+import React, { useEffect, useState } from 'react'
 import { Filter } from './components/Filter'
 import { ProductsList } from './components/ProductsList' 
 import api from './services/odataApi'
@@ -9,9 +9,6 @@ function App() {
   const [isLoading, setIsloading] = useState(false)
   const [inputText, setInputText] = useState('')
   const [errorText, setErrorText] = useState('')
-
-  let controller = new AbortController()
-  let currentRequest = false
 
   useEffect(() => {
     setIsloading(true)
@@ -27,33 +24,26 @@ function App() {
     promise
       .then(response => response.json())
       .then(resJson => {
-        currentRequest = false
+        api.fetchIsDone()
         setIsloading(false)
         setProducts(resJson.value)
         setErrorText('')
       })
       .catch(e => {
-        if (e.name === 'AbortError') {
-          setErrorText('User has aborted previous requests')
-        }
-
         setErrorText(e.message)
       })
   }
 
   const filterByString = () => {
     const normalizedInput = inputText.trim()
-    
-    if (currentRequest) {
-      controller.abort()
-      currentRequest = false
-    } else {
-      currentRequest = true
+
+    if (api.isFetchDone()) {
+      api.abortRequest()
     }
 
     setIsloading(true)
     const promise = api.fetchProductsByString(normalizedInput, { 
-      signal: controller.signal 
+      signal: api.controller.signal 
     })
     handleResponse(promise)
   }
@@ -68,7 +58,7 @@ function App() {
         errorText={errorText} />
       <ProductsList isLoading={isLoading} products={products} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

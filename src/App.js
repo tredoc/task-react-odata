@@ -10,9 +10,6 @@ function App() {
   const [inputText, setInputText] = useState('')
   const [errorText, setErrorText] = useState('')
 
-  let controller = new AbortController()
-  let currentRequest = false
-
   useEffect(() => {
     setIsloading(true)
     api.fetchAllProducts()
@@ -27,33 +24,26 @@ function App() {
     promise
       .then(response => response.json())
       .then(resJson => {
-        currentRequest = false
+        api.fetchIsDone()
         setIsloading(false)
         setProducts(resJson.value)
         setErrorText('')
       })
       .catch(e => {
-        if (e.name === 'AbortError') {
-          setErrorText('User has aborted previous requests')
-        }
-
         setErrorText(e.message)
       })
   }
 
   const filterByString = () => {
     const normalizedInput = inputText.trim()
-    
-    if (currentRequest) {
-      controller.abort()
-      currentRequest = false
-    } else {
-      currentRequest = true
+
+    if (api.isFetchDone()) {
+      api.abortRequest()
     }
 
     setIsloading(true)
     const promise = api.fetchProductsByString(normalizedInput, { 
-      signal: controller.signal 
+      signal: api.controller.signal 
     })
     handleResponse(promise)
   }

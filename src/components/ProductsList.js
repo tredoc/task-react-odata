@@ -18,7 +18,9 @@ export const ProductsList = ({ products, isLoading }) => {
 		)
 	} 
 
-	const renderedProducts = products.map((product) => <Product product={product} key={product.ID}/>)
+	const renderedProducts = products.map((product) => {
+		return <Product product={product} key={product.ID} />
+	})
 
 	return (
 		<ul className='products-list'>

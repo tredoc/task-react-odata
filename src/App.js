@@ -1,5 +1,5 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
+import './App.css'
+import React, { useEffect, useState } from 'react'
 import { Filter } from './components/Filter'
 import { ProductsList } from './components/ProductsList' 
 import api from './services/odataApi'
@@ -58,7 +58,7 @@ function App() {
         errorText={errorText} />
       <ProductsList isLoading={isLoading} products={products} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

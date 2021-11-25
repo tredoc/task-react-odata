@@ -9,22 +9,18 @@ export const ProductsList = ({ products, isLoading }) => {
 			</>
 		)
 	}
-	
+
 	if (!products.length) {
 		return (
 			<>
 				<h2>No data to display</h2>
 			</>
 		)
-	} 
+	}
 
 	const renderedProducts = products.map((product) => {
 		return <Product product={product} key={product.ID} />
 	})
 
-	return (
-		<ul className='products-list'>
-			{renderedProducts}
-		</ul>
-	)
+	return <ul className='products-list'>{renderedProducts}</ul>
 }

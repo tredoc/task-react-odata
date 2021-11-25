@@ -1,5 +1,3 @@
-## Moved abort request from App component logic to service api class  
-
 **Technical task**  
 Implement functional React component which will render the list of products.
 
